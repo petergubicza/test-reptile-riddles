@@ -3,18 +3,18 @@ package myQuizzesTests;
 import base.BaseTests;
 import com.codecool.reptile.pages.MyQuizzesPage;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MyQuizzesTests extends BaseTests {
+    private String testQuestion = "Is this a question?";
+    private String ans1 = "Yes";
+    private String ans2 = "No";
 
     @Test
     public void createQuizTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         myQuizzesPage.clickAddButton();
         myQuizzesPage.setQuizTitle();
         myQuizzesPage.clickSaveButton();
@@ -24,5 +24,22 @@ public class MyQuizzesTests extends BaseTests {
         var actual = myQuizzesPage.getQuizTitle();
 
         assertEquals(myQuizzesPage.getTitle(), actual);
+    }
+
+    @Test
+    public void selectCorrectAnswerTest() {
+        MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
+        myQuizzesPage.clickEditButton();
+        myQuizzesPage.clickAddQuestion();
+        myQuizzesPage.clickCheckbox();
+        String testQuestionUrl = driver.getCurrentUrl();
+        myQuizzesPage.clickQuestionSaveButton();
+        myQuizzesPage.acceptAlert();
+        myQuizzesPage.clickSaveButton();
+        myQuizzesPage.acceptAlert();
+
+        driver.get(testQuestionUrl);
+        myQuizzesPage.clickQuestion();
+        assertTrue(myQuizzesPage.isFirstCheckboxChecked());
     }
 }

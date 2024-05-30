@@ -11,6 +11,7 @@ public class MyQuizzesPage {
 
     private WebDriver driver;
     private WebDriverWait wait;
+    private By firstCheckbox = By.xpath("(//input[@type='checkbox'])");
 
     public MyQuizzesPage(WebDriver driver) {
         this.driver = driver;
@@ -20,8 +21,12 @@ public class MyQuizzesPage {
     private By addButton = By.xpath("//button[text() = 'Add Quiz']");
     private By quizTitleInput = By.id("name");
     private By saveButton = By.xpath("//button[text() = 'Save quiz']");
+    private By saveQuestionButton = By.xpath("//button[text() = 'Save']");
     private static final String TITLE = "testquiz";
     private By quizTitle = By.xpath("//span[contains(text(), '" + TITLE + "')]");
+    private By editButton = By.xpath("//button[text() = 'Edit']");
+    private By questionButton = By.xpath("//button[contains(text(), '1')]");
+    private By addQuestionButton = By.xpath("//button[contains(text(), 'Add Question')]");
 
     public void acceptAlert() {
         wait.until(ExpectedConditions.alertIsPresent());
@@ -39,6 +44,7 @@ public class MyQuizzesPage {
     }
 
     public void clickSaveButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         driver.findElement(saveButton).click();
     }
 
@@ -49,5 +55,34 @@ public class MyQuizzesPage {
 
     public String getTitle() {
         return TITLE;
+    }
+
+    public void clickEditButton(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(editButton));
+        driver.findElement(editButton).click();
+    }
+
+    public void clickQuestion(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(questionButton));
+        driver.findElement(questionButton).click();
+    }
+
+    public void clickAddQuestion(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(addQuestionButton));
+        driver.findElement(addQuestionButton).click();
+    }
+
+    public void clickCheckbox() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstCheckbox));
+        driver.findElement(firstCheckbox).click();
+    }
+
+    public void clickQuestionSaveButton(){
+        driver.findElement(saveQuestionButton).click();
+    }
+
+    public boolean isFirstCheckboxChecked() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstCheckbox));
+        return  driver.findElement(firstCheckbox).isSelected();
     }
 }
