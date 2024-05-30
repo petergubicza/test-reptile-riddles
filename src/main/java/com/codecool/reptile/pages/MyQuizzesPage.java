@@ -22,6 +22,10 @@ public class MyQuizzesPage {
     private By saveButton = By.xpath("//button[text() = 'Save quiz']");
     private static final String TITLE = "testquiz";
     private By quizTitle = By.xpath("//span[contains(text(), '" + TITLE + "')]");
+    private By questionButton = By.xpath("//button[contains(text(), '1')]");
+    private By editButton = By.xpath("//button[text() = 'Edit']");
+    private By timeSetterInput = By.id("3time");
+    private By saveQuestionButton = By.xpath("//button[text() = 'Save']");
 
     public void acceptAlert() {
         wait.until(ExpectedConditions.alertIsPresent());
@@ -50,4 +54,31 @@ public class MyQuizzesPage {
     public String getTitle() {
         return TITLE;
     }
+
+    public void clickEditButton() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(editButton));
+        driver.findElement(editButton).click();
+    }
+
+    public void clickQuestion() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(questionButton));
+        driver.findElement(questionButton).click();
+    }
+
+    public void setTimeInput() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(timeSetterInput));
+        driver.findElement(timeSetterInput).clear();
+        driver.findElement(timeSetterInput).sendKeys("100");
+    }
+
+    public void clickQuestionSaveButton() {
+        driver.findElement(saveQuestionButton).click();
+    }
+
+    public String getTimeLimitValue() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(timeSetterInput));
+        return driver.findElement(timeSetterInput).getAttribute("value");
+    }
+
+
 }
