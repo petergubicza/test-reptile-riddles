@@ -3,9 +3,6 @@ package myQuizzesTests;
 import base.BaseTests;
 import com.codecool.reptile.pages.MyQuizzesPage;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,7 +26,7 @@ public class MyQuizzesTests extends BaseTests {
   public void addMoreAnswerTest() {
     MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
     myQuizzesPage.clickEditButton();
-    myQuizzesPage.clickQuestion();
+    myQuizzesPage.clickAddQuestionButton();
     int originalNumber = myQuizzesPage.getNumberOfAnswers();
 
     myQuizzesPage.clickAddAnswerButton();

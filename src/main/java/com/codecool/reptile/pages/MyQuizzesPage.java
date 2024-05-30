@@ -21,6 +21,7 @@ public class MyQuizzesPage {
     private By deleteButton = By.xpath("//button[text() = 'Delete']");
     private By answerField = By.xpath("//*[contains(@id, 'answer-')]");
     private By questionButton = By.xpath("//button[contains(text(), '1')]");
+    private By addQuestionButton = By.xpath("//button[text() = 'Add Question']");
     private By addButton = By.xpath("//button[text() = 'Add Quiz']");
     private By quizTitleInput = By.id("name");
     private By saveButton = By.xpath("//button[text() = 'Save quiz']");
@@ -80,5 +81,10 @@ public class MyQuizzesPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(deleteButton));
         List<WebElement> answers = driver.findElements(answerField).stream().toList();
         return answers.size();
+    }
+
+    public void clickAddQuestionButton() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(addQuestionButton));
+        driver.findElement(addQuestionButton).click();
     }
 }
