@@ -7,9 +7,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+@TestMethodOrder(OrderAnnotation.class)
 public class MyQuizzesTests extends BaseTests {
 
     @Test
+    @Order(1)
     public void createQuizTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickAddButton();
@@ -24,6 +29,7 @@ public class MyQuizzesTests extends BaseTests {
     }
 
     @Test
+    @Order(2)
     public void selectCorrectAnswerTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickEditButton();
@@ -42,6 +48,7 @@ public class MyQuizzesTests extends BaseTests {
 
 
     @Test
+    @Order(3)
     public void addMoreAnswerTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickEditButton();
@@ -52,5 +59,22 @@ public class MyQuizzesTests extends BaseTests {
         int actual = myQuizzesPage.getNumberOfAnswers();
 
         assertEquals(originalNumber + 1, actual);
+    }
+
+    @Test
+    @Order(4)
+    public void setTimeTest() {
+        MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
+        myQuizzesPage.clickEditButton();
+        myQuizzesPage.clickQuestion();
+        myQuizzesPage.setTimeInput();
+        myQuizzesPage.clickQuestionSaveButton();
+        myQuizzesPage.acceptAlert();
+
+        myQuizzesPage.clickQuestion();
+        String actual = myQuizzesPage.getTimeLimitValue();
+        String expected = "100";
+
+        assertEquals(expected, actual);
     }
 }

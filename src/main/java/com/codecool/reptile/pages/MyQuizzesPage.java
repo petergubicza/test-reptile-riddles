@@ -10,9 +10,9 @@ import java.time.Duration;
 import java.util.List;
 
 public class MyQuizzesPage {
+
     private WebDriver driver;
     private WebDriverWait wait;
-    private By firstCheckbox = By.xpath("(//input[@type='checkbox'])");
 
     public MyQuizzesPage(WebDriver driver) {
         this.driver = driver;
@@ -27,10 +27,12 @@ public class MyQuizzesPage {
     private By addButton = By.xpath("//button[text() = 'Add Quiz']");
     private By quizTitleInput = By.id("name");
     private By saveButton = By.xpath("//button[text() = 'Save quiz']");
-    private By saveQuestionButton = By.xpath("//button[text() = 'Save']");
     private static final String TITLE = "testquiz";
     private By quizTitle = By.xpath("//span[contains(text(), '" + TITLE + "')]");
+    private By timeSetterInput = By.xpath("//input[contains(@id, 'time')]");
+    private By saveQuestionButton = By.xpath("//button[text() = 'Save']");
     private By addAnswerButton = By.xpath("//button[contains(text(), 'Add option')]");
+    private By firstCheckbox = By.xpath("(//input[@type='checkbox'])");
 
 
     public void acceptAlert() {
@@ -107,4 +109,17 @@ public class MyQuizzesPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(addQuestionButton));
         driver.findElement(addQuestionButton).click();
     }
+
+    public void setTimeInput() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(timeSetterInput));
+        driver.findElement(timeSetterInput).clear();
+        driver.findElement(timeSetterInput).sendKeys("100");
+    }
+
+    public String getTimeLimitValue() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(timeSetterInput));
+        return driver.findElement(timeSetterInput).getAttribute("value");
+    }
+
+
 }
