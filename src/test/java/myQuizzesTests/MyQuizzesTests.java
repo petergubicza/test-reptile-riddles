@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MyQuizzesTests extends BaseTests {
-    private String testQuestion = "Is this a question?";
-    private String ans1 = "Yes";
-    private String ans2 = "No";
 
     @Test
     public void createQuizTest() {
@@ -41,5 +38,19 @@ public class MyQuizzesTests extends BaseTests {
         driver.get(testQuestionUrl);
         myQuizzesPage.clickQuestion();
         assertTrue(myQuizzesPage.isFirstCheckboxChecked());
+    }
+
+
+    @Test
+    public void addMoreAnswerTest() {
+        MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
+        myQuizzesPage.clickEditButton();
+        myQuizzesPage.clickAddQuestionButton();
+        int originalNumber = myQuizzesPage.getNumberOfAnswers();
+
+        myQuizzesPage.clickAddAnswerButton();
+        int actual = myQuizzesPage.getNumberOfAnswers();
+
+        assertEquals(originalNumber + 1, actual);
     }
 }
