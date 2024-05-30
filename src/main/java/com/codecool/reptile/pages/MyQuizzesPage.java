@@ -12,11 +12,13 @@ import java.util.List;
 public class MyQuizzesPage {
     private WebDriver driver;
     private WebDriverWait wait;
+    private By firstCheckbox = By.xpath("(//input[@type='checkbox'])");
 
     public MyQuizzesPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
+
     private By editButton = By.xpath("//button[text() = 'Edit']");
     private By deleteButton = By.xpath("//button[text() = 'Delete']");
     private By answerField = By.xpath("//*[contains(@id, 'answer-')]");
@@ -29,6 +31,7 @@ public class MyQuizzesPage {
     private static final String TITLE = "testquiz";
     private By quizTitle = By.xpath("//span[contains(text(), '" + TITLE + "')]");
     private By addAnswerButton = By.xpath("//button[contains(text(), 'Add option')]");
+
 
     public void acceptAlert() {
         wait.until(ExpectedConditions.alertIsPresent());
@@ -46,6 +49,7 @@ public class MyQuizzesPage {
     }
 
     public void clickSaveButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         driver.findElement(saveButton).click();
     }
 
@@ -58,14 +62,24 @@ public class MyQuizzesPage {
         return TITLE;
     }
 
-    public void clickEditButton(){
+    public void clickEditButton() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(editButton));
         driver.findElement(editButton).click();
     }
 
-    public void clickQuestion(){
+    public void clickQuestion() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(questionButton));
         driver.findElement(questionButton).click();
+    }
+
+    public void clickAddQuestion() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(addQuestionButton));
+        driver.findElement(addQuestionButton).click();
+    }
+
+    public void clickCheckbox() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstCheckbox));
+        driver.findElement(firstCheckbox).click();
     }
 
     public void clickAddAnswerButton() {
@@ -73,8 +87,14 @@ public class MyQuizzesPage {
         driver.findElement(addAnswerButton).click();
     }
 
-    public void clickQuestionSaveButton(){
+    public void clickQuestionSaveButton() {
         driver.findElement(saveQuestionButton).click();
+    }
+
+
+    public boolean isFirstCheckboxChecked() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstCheckbox));
+        return driver.findElement(firstCheckbox).isSelected();
     }
 
     public int getNumberOfAnswers() {
