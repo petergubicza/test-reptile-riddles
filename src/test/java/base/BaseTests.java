@@ -23,7 +23,7 @@ public class BaseTests {
 
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         String driverLocation = System.getenv("DRIVER_LOCATION");
         System.setProperty("webdriver.chrome.driver", driverLocation);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -37,7 +37,7 @@ public class BaseTests {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
     }
 }
