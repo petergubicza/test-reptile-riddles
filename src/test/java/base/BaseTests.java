@@ -1,6 +1,7 @@
 package base;
 
 import com.codecool.reptile.pages.MainPage;
+import com.codecool.reptile.pages.QuizFormPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
@@ -13,13 +14,14 @@ import java.time.Duration;
 
 public class BaseTests {
     protected WebDriver driver = new ChromeDriver();
-    private By usernameField = By.id("user-name");
-    private By passwordField = By.id("password");
-    private By loginButton = By.xpath("//button[text() = 'LOGIN']");
-    private String username = "test";
-    private String password = "test";
+    private final By usernameField = By.id("user-name");
+    private final By passwordField = By.id("password");
+    private final By loginButton = By.xpath("//button[text() = 'LOGIN']");
+    private final String USERNAME = "test";
+    private final String PASSWORD = "test";
     protected MainPage mainPage;
     protected WebDriverWait wait;
+    protected QuizFormPage quizFormPage;
 
 
     @BeforeEach
@@ -29,11 +31,12 @@ public class BaseTests {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("http://localhost:3000/login");
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
-        driver.findElement(usernameField).sendKeys(username);
-        driver.findElement(passwordField).sendKeys(password);
+        driver.findElement(usernameField).sendKeys(USERNAME);
+        driver.findElement(passwordField).sendKeys(PASSWORD);
         driver.findElement(loginButton).click();
 
         mainPage = new MainPage(driver);
+        quizFormPage = new QuizFormPage(driver);
     }
 
     @AfterEach

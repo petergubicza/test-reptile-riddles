@@ -7,9 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class MainPage {
-
     private WebDriver driver;
-
     private WebDriverWait wait;
 
     public MainPage(WebDriver driver) {
@@ -21,5 +19,10 @@ public class MainPage {
         wait.until(ExpectedConditions.urlToBe("http://localhost:3000/"));
         driver.get("http://localhost:3000/quiz/my");
         return new MyQuizzesPage(driver);
+    }
+
+    public QuizFormPage navigateToQuizForm() {
+        driver.get("http://localhost:3000/quizform");
+        return new QuizFormPage(driver);
     }
 }

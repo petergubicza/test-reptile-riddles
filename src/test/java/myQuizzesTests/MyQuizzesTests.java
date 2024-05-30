@@ -2,14 +2,13 @@ package myQuizzesTests;
 
 import base.BaseTests;
 import com.codecool.reptile.pages.MyQuizzesPage;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(OrderAnnotation.class)
 public class MyQuizzesTests extends BaseTests {
 
@@ -33,17 +32,17 @@ public class MyQuizzesTests extends BaseTests {
     public void selectCorrectAnswerTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickEditButton();
-        myQuizzesPage.clickAddQuestion();
-        myQuizzesPage.clickCheckbox();
+        quizFormPage.clickAddQuestion();
+        quizFormPage.clickCheckbox();
         String testQuestionUrl = driver.getCurrentUrl();
-        myQuizzesPage.clickQuestionSaveButton();
-        myQuizzesPage.acceptAlert();
-        myQuizzesPage.clickSaveButton();
-        myQuizzesPage.acceptAlert();
+        quizFormPage.clickQuestionSaveButton();
+        quizFormPage.acceptAlert();
+        quizFormPage.clickSaveButton();
+        quizFormPage.acceptAlert();
 
         driver.get(testQuestionUrl);
-        myQuizzesPage.clickQuestion();
-        assertTrue(myQuizzesPage.isFirstCheckboxChecked());
+        quizFormPage.clickQuestion();
+        assertTrue(quizFormPage.isFirstCheckboxChecked());
     }
 
 
@@ -52,11 +51,11 @@ public class MyQuizzesTests extends BaseTests {
     public void addMoreAnswerTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickEditButton();
-        myQuizzesPage.clickAddQuestionButton();
-        int originalNumber = myQuizzesPage.getNumberOfAnswers();
+        quizFormPage.clickAddQuestionButton();
+        int originalNumber = quizFormPage.getNumberOfAnswers();
 
-        myQuizzesPage.clickAddAnswerButton();
-        int actual = myQuizzesPage.getNumberOfAnswers();
+        quizFormPage.clickAddAnswerButton();
+        int actual = quizFormPage.getNumberOfAnswers();
 
         assertEquals(originalNumber + 1, actual);
     }
@@ -66,13 +65,13 @@ public class MyQuizzesTests extends BaseTests {
     public void setTimeTest() {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickEditButton();
-        myQuizzesPage.clickQuestion();
-        myQuizzesPage.setTimeInput();
-        myQuizzesPage.clickQuestionSaveButton();
+        quizFormPage.clickQuestion();
+        quizFormPage.setTimeInput();
+        quizFormPage.clickQuestionSaveButton();
         myQuizzesPage.acceptAlert();
 
-        myQuizzesPage.clickQuestion();
-        String actual = myQuizzesPage.getTimeLimitValue();
+        quizFormPage.clickQuestion();
+        String actual = quizFormPage.getTimeLimitValue();
         String expected = "100";
 
         assertEquals(expected, actual);
