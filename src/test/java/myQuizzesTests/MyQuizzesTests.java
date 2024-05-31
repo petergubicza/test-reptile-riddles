@@ -9,17 +9,30 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-@TestMethodOrder(OrderAnnotation.class)
+
+@TestMethodOrder(OrderAnnotation.class)  // TODO: refactor, test cases should be independent
 public class MyQuizzesTests extends BaseTests {
+
+    private MyQuizzesPage quizzesPage;
+    private MainPage mainPage;
+    private WebDriver driver;
+
+    @BeforeEach
+    void setUp() {
+        driver = new WebDriver();
+        myQuizzesPage = new MyQuizzesPage(driver);
+        mainPage = new MainPage(driver);
+    }
 
     @Test
     @Order(1)
     public void createQuizTest() {
-        MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
-        myQuizzesPage.clickAddButton();
+        // act
+        myQuizzesPage.createQuiz();
+        /* myQuizzesPage.clickAddButton();
         myQuizzesPage.setQuizTitle();
         myQuizzesPage.clickSaveButton();
-        myQuizzesPage.acceptAlert();
+        myQuizzesPage.acceptAlert();*/
         driver.get("http://localhost:3000/quiz/my");
 
         var actual = myQuizzesPage.getQuizTitle();
@@ -30,7 +43,10 @@ public class MyQuizzesTests extends BaseTests {
     @Test
     @Order(2)
     public void selectCorrectAnswerTest() {
-        MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
+        // arrange
+        myQuizzesPage.createQuiz();
+
+        // MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickEditButton();
         quizFormPage.clickAddQuestion();
         quizFormPage.clickCheckbox();

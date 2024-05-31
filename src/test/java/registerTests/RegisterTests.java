@@ -13,12 +13,15 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterTests {
+    
     @AfterEach
     public void tearDown() {
         driver.quit();
     }
+    
     private WebDriver driver = new ChromeDriver();
     private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    
     @Test
     public void registerTest(){
         driver.get("http://localhost:3000/register");
@@ -30,8 +33,9 @@ public class RegisterTests {
         registerPage.register(username,email,password);
         wait.until(ExpectedConditions.urlToBe("http://localhost:3000/"));
 
-        var actual = driver.getCurrentUrl();
+        String actual = driver.getCurrentUrl();
+        String expected = "http://localhost:3000/";
 
-        assertEquals("http://localhost:3000/", actual);
+        assertEquals(expected, actual);
     }
 }
