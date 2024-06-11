@@ -1,7 +1,9 @@
 package com.codecool.reptile.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,16 +16,23 @@ public class MyQuizzesPage {
 
     public MyQuizzesPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     private static final String TITLE = "testquiz";
-    private final By editButton = By.xpath("//button[text() = 'Edit']");
-    private final By deleteButton = By.xpath("//button[text() = 'Delete']");
-    private final By addButton = By.xpath("//button[text() = 'Add Quiz']");
-    private final By quizTitleInput = By.id("name");
-    private final By quizTitle = By.xpath("//span[contains(text(), '" + TITLE + "')]");
-    private final By saveButton = By.xpath("//button[text() = 'Save quiz']");
+    @FindBy(xpath = "//button[text() = 'Edit']")
+    private WebElement editButton;
+    @FindBy(xpath = "//button[text() = 'Delete']")
+    private WebElement deleteButton;
+    @FindBy(xpath = "//button[text() = 'Add Quiz']")
+    private WebElement addButton;
+    @FindBy(id = "name")
+    private WebElement quizTitleInput;
+    @FindBy(xpath = "//span[contains(text(), '" + TITLE + "')]")
+    private WebElement quizTitle;
+    @FindBy(xpath = "//button[text() = 'Save quiz']")
+    private WebElement saveButton;
 
     public void acceptAlert() {
         wait.until(ExpectedConditions.alertIsPresent());
@@ -31,18 +40,18 @@ public class MyQuizzesPage {
     }
 
     public void clickAddButton() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(addButton));
-        driver.findElement(addButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(addButton));
+        addButton.click();
     }
 
     public void setQuizTitle() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(quizTitleInput));
-        driver.findElement(quizTitleInput).sendKeys(TITLE);
+        wait.until(ExpectedConditions.visibilityOf(quizTitleInput));
+        quizTitleInput.sendKeys(TITLE);
     }
 
     public String getQuizTitle() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(quizTitle));
-        return driver.findElement(quizTitle).getText();
+        wait.until(ExpectedConditions.visibilityOf(quizTitle));
+        return quizTitle.getText();
     }
 
     public String getTitle() {
@@ -50,12 +59,12 @@ public class MyQuizzesPage {
     }
 
     public void clickEditButton() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(editButton));
-        driver.findElement(editButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(editButton));
+        editButton.click();
     }
 
     public void clickSaveButton() {
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        driver.findElement(saveButton).click();
+        saveButton.click();
     }
 }
