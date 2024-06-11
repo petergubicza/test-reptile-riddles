@@ -36,8 +36,4 @@ public class BaseTests {
         mainPage = new MainPage(driver);
     }
 
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
 }
