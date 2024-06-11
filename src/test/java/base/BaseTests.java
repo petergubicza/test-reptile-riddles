@@ -39,8 +39,4 @@ public class BaseTests {
         quizFormPage = new QuizFormPage(driver);
     }
 
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
 }

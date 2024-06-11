@@ -26,6 +26,11 @@ public class MyQuizzesPage {
     private WebElement quizTitle;
     @FindBy(xpath = "//button[text() = 'Save quiz']")
     private WebElement saveButton;
+      public MyQuizzesPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
     public MyQuizzesPage(WebDriver driver) {
         this.driver = driver;
