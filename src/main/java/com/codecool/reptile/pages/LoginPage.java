@@ -9,30 +9,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class RegisterPage {
+public class LoginPage {
     private WebDriver driver;
     private WebDriverWait wait;
-
     @FindBy(id = "user-name")
     private WebElement usernameField;
     @FindBy(id = "password")
     private WebElement passwordField;
-    @FindBy(id = "email")
-    private WebElement emailField;
-    @FindBy(xpath = "//button[text() = 'SIGN UP']")
-    private WebElement singUpButton;
+    @FindBy(xpath = "//button[text() = 'LOGIN']")
+    private WebElement loginButton;
 
-    public RegisterPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    public void register(String username,String password, String email){
+    public void logIn(String username, String password) {
         wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
         wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
-        wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(email);
-        wait.until(ExpectedConditions.elementToBeClickable(singUpButton)).click();
-        wait.until(ExpectedConditions.urlToBe("http://localhost:3000/login"));
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+        wait.until(ExpectedConditions.urlToBe("http://localhost:3000/"));
     }
 }
