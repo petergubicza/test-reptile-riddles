@@ -14,13 +14,6 @@ import java.util.List;
 public class QuizFormPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
-
-    public QuizFormPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
-
     @FindBy(xpath = "//*[contains(@id, 'answer-')]")
     private WebElement answerField;
     @FindBy(xpath = "//button[contains(text(), '1')]")
@@ -39,8 +32,13 @@ public class QuizFormPage {
     private WebElement saveButton;
     @FindBy(xpath = "//button[text() = 'Delete']")
     private WebElement deleteButton;
-
     private final By answerFieldLocator = By.xpath("//*[contains(@id, 'answer-')]");
+
+    public QuizFormPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
     public void acceptAlert() {
         wait.until(ExpectedConditions.alertIsPresent());

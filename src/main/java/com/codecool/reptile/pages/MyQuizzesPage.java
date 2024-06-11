@@ -13,13 +13,6 @@ public class MyQuizzesPage {
 
     private final WebDriver driver;
     private final WebDriverWait wait;
-
-    public MyQuizzesPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
-
     private static final String TITLE = "testquiz";
     @FindBy(xpath = "//button[text() = 'Edit']")
     private WebElement editButton;
@@ -33,6 +26,12 @@ public class MyQuizzesPage {
     private WebElement quizTitle;
     @FindBy(xpath = "//button[text() = 'Save quiz']")
     private WebElement saveButton;
+
+    public MyQuizzesPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
     public void acceptAlert() {
         wait.until(ExpectedConditions.alertIsPresent());

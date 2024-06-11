@@ -12,11 +12,6 @@ import java.time.Duration;
 public class RegisterPage {
     private WebDriver driver;
     private WebDriverWait wait;
-    public RegisterPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
     @FindBy(id = "user-name")
     private WebElement usernameField;
     @FindBy(id = "password")
@@ -27,6 +22,12 @@ public class RegisterPage {
     private WebElement singUpButton;
     @FindBy(xpath = "//button[text() = 'LOGIN']")
     private WebElement loginButton;
+
+    public RegisterPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
 
     public void register(String username,String email, String password){
         wait.until(ExpectedConditions.visibilityOf(usernameField));
