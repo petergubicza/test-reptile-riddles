@@ -4,7 +4,6 @@ import com.codecool.reptile.pages.MainPage;
 import com.codecool.reptile.pages.MyQuizzesPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +16,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MyQuizEditorTest{
+public class MyQuizEditorTest {
     protected WebDriver driver = new ChromeDriver();
     private By usernameField = By.id("user-name");
     private By passwordField = By.id("password");
@@ -30,7 +29,7 @@ public class MyQuizEditorTest{
     private String quizUrl;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("http://localhost:3000/login");
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
@@ -64,6 +63,7 @@ public class MyQuizEditorTest{
         myQuizzesPage.clickQuestion();
         assertTrue(myQuizzesPage.isFirstCheckboxChecked());
     }
+
     @Test
     public void addMoreAnswerTest() {
         myQuizzesPage.clickAddQuestionButton();
@@ -74,6 +74,7 @@ public class MyQuizEditorTest{
 
         assertEquals(originalNumber + 1, actual);
     }
+
     @Test
     public void setTimeTest() {
         myQuizzesPage.clickAddQuestionButton();
