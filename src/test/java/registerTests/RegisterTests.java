@@ -17,8 +17,8 @@ public class RegisterTests {
     public void tearDown() {
         driver.quit();
     }
-    private WebDriver driver = new ChromeDriver();
-    private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    private final WebDriver driver = new ChromeDriver();
+    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     @Test
     public void registerTest(){
         driver.get("http://localhost:3000/register");
