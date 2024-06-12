@@ -1,16 +1,22 @@
 package MyquizEditorTests;
 
+import com.codecool.reptile.pages.LoginPage;
 import com.codecool.reptile.pages.MainPage;
 import com.codecool.reptile.pages.MyQuizzesPage;
+import com.codecool.reptile.pages.QuizFormPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvFileSources;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.security.PrivilegedAction;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,28 +24,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MyQuizEditorTest {
     protected WebDriver driver = new ChromeDriver();
-    private By usernameField = By.id("user-name");
-    private By passwordField = By.id("password");
-    private By loginButton = By.xpath("//button[text() = 'LOGIN']");
-    private String username = "test";
-    private String password = "test";
-    protected MainPage mainPage;
-    protected WebDriverWait wait;
+    private final MainPage mainPage = new MainPage(driver);
+    private final QuizFormPage quizFormPage = new QuizFormPage(driver);
+    private WebDriverWait wait;
     private MyQuizzesPage myQuizzesPage;
     private String quizUrl;
+    private static final String VALID_USERNAME = System.getenv("USERNAME");
+    private static final String VALID_PASSWORD = System.getenv("PASSWORD");
+    private static final String LOGIN_URL = "http://localhost:3000/login";
+    private static final String CORRECT_ANSWER = "correct answer";
+    private static final String INCORRECT_ANSWER = "incorrect answer";
 
     @BeforeEach
     public void setUp() {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        driver.get("http://localhost:3000/login");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
-        driver.findElement(usernameField).sendKeys(username);
-        driver.findElement(passwordField).sendKeys(password);
-        driver.findElement(loginButton).click();
-
-        mainPage = new MainPage(driver);
+        driver.get(LOGIN_URL);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.logIn(VALID_USERNAME, VALID_PASSWORD);
 
         myQuizzesPage = mainPage.navigateToMyQuizzes();
+
         myQuizzesPage.clickAddButton();
         myQuizzesPage.setQuizTitle();
         quizUrl = driver.getCurrentUrl();
@@ -50,50 +54,65 @@ public class MyQuizEditorTest {
     }
 
     @Test
-    public void selectCorrectAnswerTest() {
-        myQuizzesPage.clickAddQuestion();
-        myQuizzesPage.clickCheckbox();
+    public void test_selectCorrectAnswer() {
+        quizFormPage.clickAddQuestion();
+        quizFormPage.addTwoAnswers(CORRECT_ANSWER, INCORRECT_ANSWER);
+        quizFormPage.clickForCorrectAnswerCheckbox();
         String testQuestionUrl = driver.getCurrentUrl();
-        myQuizzesPage.clickQuestionSaveButton();
-        myQuizzesPage.acceptAlert();
-        myQuizzesPage.clickSaveButton();
-        myQuizzesPage.acceptAlert();
+        quizFormPage.clickQuestionSaveButton();
+        quizFormPage.acceptAlert();
+        quizFormPage.clickSaveButton();
+        quizFormPage.acceptAlert();
 
         driver.get(testQuestionUrl);
-        myQuizzesPage.clickQuestion();
-        assertTrue(myQuizzesPage.isFirstCheckboxChecked());
+        quizFormPage.clickQuestion();
+        assertTrue(quizFormPage.isCorrectAnswerCheckboxChecked());
     }
 
     @Test
-    public void addMoreAnswerTest() {
-        myQuizzesPage.clickAddQuestionButton();
-        int originalNumber = myQuizzesPage.getNumberOfAnswers();
+    public void test_AddMoreAnswer() {
+        quizFormPage.clickAddQuestionButton();
+        int originalNumber = quizFormPage.getNumberOfAnswers();
 
-        myQuizzesPage.clickAddAnswerButton();
-        int actual = myQuizzesPage.getNumberOfAnswers();
+        quizFormPage.clickAddAnswerButton();
+        int actual = quizFormPage.getNumberOfAnswers();
 
         assertEquals(originalNumber + 1, actual);
     }
 
-    @Test
-    public void setTimeTest() {
-        myQuizzesPage.clickAddQuestionButton();
-        myQuizzesPage.setTimeInput();
-        myQuizzesPage.clickQuestionSaveButton();
+    @ParameterizedTest
+    @CsvFileSource(resources = "/test-data-valid-time-limit.csv", numLinesToSkip = 1)
+    public void test_SetTimeWithValidTimeLimit(String sec) {
+        quizFormPage.clickAddQuestionButton();
+        quizFormPage.setTimeInput(sec);
+        quizFormPage.clickQuestionSaveButton();
         myQuizzesPage.acceptAlert();
 
         wait.until(ExpectedConditions.urlToBe(quizUrl));
 
-        myQuizzesPage.clickQuestion();
-        String actual = myQuizzesPage.getTimeLimitValue();
-        String expected = "100";
+        quizFormPage.clickQuestion();
+        String actual = quizFormPage.getTimeLimitValue();
 
-        assertEquals(expected, actual);
+        assertEquals(sec, actual);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/test-data-invalid-time-limit.csv", numLinesToSkip = 1)
+    public void test_SetTimeWithInvalidTimeLimit(String invalidType) {
+        quizFormPage.clickAddQuestionButton();
+        quizFormPage.setTimeInput(invalidType);
+        quizFormPage.clickQuestionSaveButton();
+        quizFormPage.acceptAlert();
+
+        wait.until(ExpectedConditions.urlToBe(quizUrl));
+
+        quizFormPage.clickQuestion();
+        String actual = quizFormPage.getTimeLimitValue();
+
+        assertEquals("30", actual); //TODO minusz értékre bugriportot írni
     }
 
     @AfterEach
     public void tearDown() {
-        driver.get("http://localhost:3000/quiz/my");
         myQuizzesPage.deleteQuiz();
         driver.quit();
     }
