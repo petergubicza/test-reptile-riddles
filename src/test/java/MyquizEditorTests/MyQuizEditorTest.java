@@ -2,9 +2,12 @@ package MyquizEditorTests;
 
 import com.codecool.reptile.pages.MainPage;
 import com.codecool.reptile.pages.MyQuizzesPage;
+import com.codecool.reptile.pages.QuizFormPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,9 +15,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MyQuizEditorTest {
     protected WebDriver driver = new ChromeDriver();
@@ -26,6 +31,7 @@ public class MyQuizEditorTest {
     protected MainPage mainPage;
     protected WebDriverWait wait;
     private MyQuizzesPage myQuizzesPage;
+    private QuizFormPage quizFormPage = new QuizFormPage(driver);
     private String quizUrl;
 
     @BeforeEach
@@ -43,49 +49,62 @@ public class MyQuizEditorTest {
         myQuizzesPage.clickAddButton();
         myQuizzesPage.setQuizTitle();
         quizUrl = driver.getCurrentUrl();
-        myQuizzesPage.clickSaveButton();
+        quizFormPage.clickSaveButton();
         myQuizzesPage.acceptAlert();
         driver.get(quizUrl);
+    }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "/quiz-answers.csv", numLinesToSkip = 1)
+    public void test_createQuestionWithAnswers_QuestionIsSaved(
+            String question, String answer1, String answer2, int correctAnswer) {
+
+        quizFormPage.addQuestionWithAnswers(question, answer1, answer2, correctAnswer);
+
+        quizFormPage.clickQuestion();
+
+        List<String> expected = new ArrayList<>(Arrays.asList(answer1, answer2));
+        List<String> actual = quizFormPage.getAnswers();
+        assertLinesMatch(expected, actual);
     }
 
     @Test
     public void selectCorrectAnswerTest() {
-        myQuizzesPage.clickAddQuestion();
-        myQuizzesPage.clickCheckbox();
+        quizFormPage.clickAddQuestion();
+        quizFormPage.clickCheckbox();
         String testQuestionUrl = driver.getCurrentUrl();
-        myQuizzesPage.clickQuestionSaveButton();
+        quizFormPage.clickQuestionSaveButton();
         myQuizzesPage.acceptAlert();
-        myQuizzesPage.clickSaveButton();
+        quizFormPage.clickSaveButton();
         myQuizzesPage.acceptAlert();
 
         driver.get(testQuestionUrl);
-        myQuizzesPage.clickQuestion();
-        assertTrue(myQuizzesPage.isFirstCheckboxChecked());
+        quizFormPage.clickQuestion();
+        assertTrue(quizFormPage.isFirstCheckboxChecked());
     }
 
     @Test
     public void addMoreAnswerTest() {
-        myQuizzesPage.clickAddQuestionButton();
-        int originalNumber = myQuizzesPage.getNumberOfAnswers();
+        quizFormPage.clickAddQuestionButton();
+        int originalNumber = quizFormPage.getNumberOfAnswers();
 
-        myQuizzesPage.clickAddAnswerButton();
-        int actual = myQuizzesPage.getNumberOfAnswers();
+        quizFormPage.clickAddAnswerButton();
+        int actual = quizFormPage.getNumberOfAnswers();
 
         assertEquals(originalNumber + 1, actual);
     }
 
     @Test
     public void setTimeTest() {
-        myQuizzesPage.clickAddQuestionButton();
-        myQuizzesPage.setTimeInput();
-        myQuizzesPage.clickQuestionSaveButton();
+        quizFormPage.clickAddQuestionButton();
+        quizFormPage.setTimeInput();
+        quizFormPage.clickQuestionSaveButton();
         myQuizzesPage.acceptAlert();
 
         wait.until(ExpectedConditions.urlToBe(quizUrl));
 
-        myQuizzesPage.clickQuestion();
-        String actual = myQuizzesPage.getTimeLimitValue();
+        quizFormPage.clickQuestion();
+        String actual = quizFormPage.getTimeLimitValue();
         String expected = "100";
 
         assertEquals(expected, actual);

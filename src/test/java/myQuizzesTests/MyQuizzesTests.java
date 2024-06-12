@@ -18,7 +18,7 @@ public class MyQuizzesTests extends BaseTests {
         MyQuizzesPage myQuizzesPage = mainPage.navigateToMyQuizzes();
         myQuizzesPage.clickAddButton();
         myQuizzesPage.setQuizTitle();
-        myQuizzesPage.clickSaveButton();
+        quizFormPage.clickSaveButton();
         myQuizzesPage.acceptAlert();
         driver.get("http://localhost:3000/quiz/my");
 

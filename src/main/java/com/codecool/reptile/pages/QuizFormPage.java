@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class QuizFormPage {
     private final WebDriver driver;
@@ -39,6 +40,12 @@ public class QuizFormPage {
     private WebElement saveButton;
     @FindBy(xpath = "//button[text() = 'Delete']")
     private WebElement deleteButton;
+    @FindBy(id = "-1question")
+    private WebElement questionTitleInput;
+    @FindBy(id = "answer-1")
+    private WebElement firstAnswerInput;
+    @FindBy(id = "answer-2")
+    private WebElement secondAnswerInput;
 
     private final By answerFieldLocator = By.xpath("//*[contains(@id, 'answer-')]");
 
@@ -50,6 +57,7 @@ public class QuizFormPage {
     public void clickQuestion() {
         wait.until(ExpectedConditions.elementToBeClickable(questionButton));
         questionButton.click();
+        wait.until(ExpectedConditions.visibilityOf(saveQuestionButton));
     }
 
     public void clickAddQuestion() {
@@ -103,5 +111,47 @@ public class QuizFormPage {
     public void clickSaveButton() {
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         saveButton.click();
+    }
+
+    public void addTwoAnswers(String firstAnswer, String secondAnswer) {
+        wait.until(ExpectedConditions.visibilityOf(firstAnswerInput));
+        firstAnswerInput.sendKeys(firstAnswer);
+        secondAnswerInput.sendKeys(secondAnswer);
+    }
+
+    public void addQuestionWithAnswers(
+            String question, String answer1, String answer2, int correctAnswer) {
+        wait.until(ExpectedConditions.elementToBeClickable(addQuestionButton));
+        addQuestionButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(questionTitleInput));
+        questionTitleInput.sendKeys(question);
+
+        wait.until(ExpectedConditions.visibilityOf(firstAnswerInput));
+        firstAnswerInput.sendKeys(answer1);
+        secondAnswerInput.sendKeys(answer2);
+
+        if (findNthCorrectCheckbox(correctAnswer) != null) {
+            findNthCorrectCheckbox(correctAnswer).click();
+        }
+
+        wait.until(ExpectedConditions.elementToBeClickable(saveQuestionButton));
+        saveQuestionButton.click();
+
+        acceptAlert();
+    }
+
+    public List<String> getAnswers() {
+        List<WebElement> answerFields = driver.findElements(By.xpath("//input[contains(@id, 'answer-')]"));
+
+        return answerFields.stream().map(webElement -> webElement.getAttribute("value")).toList();
+    }
+
+    private WebElement findNthCorrectCheckbox(int n) {
+        try {
+            return driver.findElement(By.id("checkbox-" + n));
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 }
