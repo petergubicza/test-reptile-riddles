@@ -39,6 +39,12 @@ public class QuizFormPage {
     private WebElement saveButton;
     @FindBy(xpath = "//button[text() = 'Delete']")
     private WebElement deleteButton;
+    @FindBy(id = "answer-1")
+    private WebElement firstAnswerInput;
+    @FindBy(id = "answer-2")
+    private WebElement secondAnswerInput;
+    @FindBy(xpath = "//input[@type='text' and @value='correct answer']/ancestor::div[contains(@class, 'col-span-11')]/following-sibling::div[contains(@class, 'col-span-1')]//input[@type='checkbox']")
+    WebElement checkboxForCorrectAnswer;
 
     private final By answerFieldLocator = By.xpath("//*[contains(@id, 'answer-')]");
 
@@ -89,10 +95,10 @@ public class QuizFormPage {
         addQuestionButton.click();
     }
 
-    public void setTimeInput() {
+    public void setTimeInput(String sec) {
         wait.until(ExpectedConditions.visibilityOf(timeSetterInput));
         timeSetterInput.clear();
-        timeSetterInput.sendKeys("100");
+        timeSetterInput.sendKeys(sec);
     }
 
     public String getTimeLimitValue() {
@@ -103,5 +109,18 @@ public class QuizFormPage {
     public void clickSaveButton() {
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         saveButton.click();
+    }
+    public void clickForCorrectAnswerCheckbox() {
+        wait.until(ExpectedConditions.elementToBeClickable(checkboxForCorrectAnswer));
+        checkboxForCorrectAnswer.click();
+    }
+    public boolean isCorrectAnswerCheckboxChecked() {
+        wait.until(ExpectedConditions.visibilityOf(checkboxForCorrectAnswer));
+        return checkboxForCorrectAnswer.isSelected();
+    }
+    public void addTwoAnswers(String firstAnswer, String secondAnswer){
+        wait.until(ExpectedConditions.visibilityOf(firstAnswerInput));
+        firstAnswerInput.sendKeys(firstAnswer);
+        secondAnswerInput.sendKeys(secondAnswer);
     }
 }
