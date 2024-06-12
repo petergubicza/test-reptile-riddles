@@ -15,7 +15,7 @@ public class RegistrationTest {
     private  WebDriver driver;
     private RegistrationPage registerPage;
     private LoginPage loginPage;
-    private static final String PROPER_CREDENTIALS = "src/test/resources/data/register-proper-credentials-test-data.csv";
+    private static final String PROPER_CREDENTIALS = "/register-proper-credentials-test-data.csv";
 
     @BeforeEach
     public void setup() {

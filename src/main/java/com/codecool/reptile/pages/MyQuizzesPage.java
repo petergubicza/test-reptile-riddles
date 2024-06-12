@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 public class MyQuizzesPage {
 
     private static final String TITLE = "testquiz";
-    private static final String BASE_URL = System.getenv("BASE_URL");
+    private static final String BASE_URL = "http://localhost:3000/quiz/my";
     private final WebDriver driver;
     private final WebDriverWait wait;
     private final By answerField = By.xpath("//*[contains(@id, 'answer-')]");
@@ -63,8 +63,10 @@ public class MyQuizzesPage {
         acceptAlert();
     }
     public void deleteQuiz(){
-        navigateToMyQuizzes();
-            wait.until(ExpectedConditions.visibilityOf(deleteButton)).click();
+        driver.get("http://localhost:3000/quiz/my");
+        wait.until(ExpectedConditions.visibilityOf(deleteButton));
+        deleteButton.click();
+        driver.switchTo().alert().accept();
     }
 
     public void deleteQuiz(String quizTitle){
@@ -105,7 +107,7 @@ public class MyQuizzesPage {
         driver.switchTo().alert().accept();
     }
 
-    private void clickAddButton() {
+    public void clickAddButton() {
         wait.until(ExpectedConditions.elementToBeClickable(addQuizButton)).click();
     }
 
