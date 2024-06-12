@@ -52,15 +52,7 @@ public class MyQuizEditorTest {
 
     @Test
     public void test_selectCorrectAnswer() {
-        quizFormPage.clickAddQuestion();
-        quizFormPage.addTwoAnswers(CORRECT_ANSWER, INCORRECT_ANSWER);
-        quizFormPage.clickForCorrectAnswerCheckbox();
-        String testQuestionUrl = driver.getCurrentUrl();
-        quizFormPage.clickQuestionSaveButton();
-        quizFormPage.acceptAlert();
-        quizFormPage.clickSaveButton();
-        quizFormPage.acceptAlert();
-
+        String testQuestionUrl = quizFormPage.selectCorrectAnswer(CORRECT_ANSWER, INCORRECT_ANSWER);
         driver.get(testQuestionUrl);
         quizFormPage.clickQuestion();
         assertTrue(quizFormPage.isCorrectAnswerCheckboxChecked());

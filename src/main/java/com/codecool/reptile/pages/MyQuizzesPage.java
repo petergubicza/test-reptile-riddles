@@ -18,29 +18,12 @@ public class MyQuizzesPage {
     private static final String BASE_URL = "http://localhost:3000/quiz/my";
     private final WebDriver driver;
     private final WebDriverWait wait;
-    private final By answerField = By.xpath("//*[contains(@id, 'answer-')]");
-    @FindBy (xpath = "//button[contains(text(), '1')]")
-    private WebElement questionButton;
-    @FindBy (xpath = "//button[text() = 'Add Question']")
-    private WebElement addQuestionButton;
-    @FindBy (xpath = "//input[contains(@id, 'time')]")
-    private WebElement timeSetterInput;
-    @FindBy (xpath = "//button[text() = 'Save']")
-    private WebElement saveQuestionButton;
-    @FindBy (xpath = "//button[contains(text(), 'Add option')]")
-    private WebElement addAnswerButton;
-    @FindBy (xpath = "(//input[@type='checkbox'])")
-    private WebElement firstCheckbox;
     @FindBy(xpath = "//button[text() = 'Delete']")
     private WebElement deleteButton;
-    @FindBy(xpath = "//button[text() = 'Edit']")
-    private WebElement editButton;
     @FindBy(xpath = "//button[text() = 'Add Quiz']")
     private WebElement addQuizButton;
     @FindBy(id = "name")
     private WebElement quizTitleInput;
-    @FindBy(xpath = "//span[contains(text(), '" + TITLE + "')]")
-    private WebElement quizTitle;
     @FindBy(xpath = "//button[text() = 'Save quiz']")
     private WebElement saveButton;
 
