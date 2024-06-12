@@ -1,31 +1,26 @@
-package registerTests;
+package registrationTests;
 
 import com.codecool.reptile.pages.LoginPage;
-import com.codecool.reptile.pages.RegisterPage;
+import com.codecool.reptile.pages.RegistrationPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-public class RegisterTest {
+public class RegistrationTest {
     private  WebDriver driver;
-    private  RegisterPage registerPage;
+    private RegistrationPage registerPage;
     private LoginPage loginPage;
-    private static final String PROPER_CREDENTIALS = "src/test/resources/data/register-proper-credentials-test-data.csv";
+    private static final String PROPER_CREDENTIALS = "/register-proper-credentials-test-data.csv";
 
     @BeforeEach
     public void setup() {
         driver = new ChromeDriver();
-        registerPage = new RegisterPage(driver);
+        registerPage = new RegistrationPage(driver);
         loginPage = new LoginPage(driver);
         driver.get("http://localhost:3000/register"); // Ez mehetne környezeti változóba?
     }

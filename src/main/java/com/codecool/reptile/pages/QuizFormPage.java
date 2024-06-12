@@ -21,8 +21,6 @@ public class QuizFormPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    @FindBy(xpath = "//*[contains(@id, 'answer-')]")
-    private WebElement answerField;
     @FindBy(xpath = "//button[contains(text(), '1')]")
     private WebElement questionButton;
     @FindBy(xpath = "//button[text() = 'Add Question']")
@@ -33,8 +31,6 @@ public class QuizFormPage {
     private WebElement saveQuestionButton;
     @FindBy(xpath = "//button[contains(text(), 'Add option')]")
     private WebElement addAnswerButton;
-    @FindBy(id = "checkbox-1")
-    private WebElement firstCheckbox;
     @FindBy(xpath = "//button[text() = 'Save quiz']")
     private WebElement saveButton;
     @FindBy(xpath = "//button[text() = 'Delete']")
@@ -63,11 +59,6 @@ public class QuizFormPage {
         addQuestionButton.click();
     }
 
-    public void clickCheckbox() {
-        wait.until(ExpectedConditions.elementToBeClickable(firstCheckbox));
-        firstCheckbox.click();
-    }
-
     public void clickAddAnswerButton() {
         wait.until(ExpectedConditions.elementToBeClickable(addAnswerButton));
         addAnswerButton.click();
@@ -76,12 +67,6 @@ public class QuizFormPage {
     public void clickQuestionSaveButton() {
         wait.until(ExpectedConditions.elementToBeClickable(saveQuestionButton));
         saveQuestionButton.click();
-    }
-
-
-    public boolean isFirstCheckboxChecked() {
-        wait.until(ExpectedConditions.visibilityOf(firstCheckbox));
-        return firstCheckbox.isSelected();
     }
 
     public int getNumberOfAnswers() {
@@ -122,5 +107,17 @@ public class QuizFormPage {
         wait.until(ExpectedConditions.visibilityOf(firstAnswerInput));
         firstAnswerInput.sendKeys(firstAnswer);
         secondAnswerInput.sendKeys(secondAnswer);
+    }
+
+    public String selectCorrectAnswer(String correctAnswer, String incorrectAnswer) {
+        clickAddQuestion();
+        addTwoAnswers(correctAnswer, incorrectAnswer);
+        clickForCorrectAnswerCheckbox();
+        String testQuestionUrl = driver.getCurrentUrl();
+        clickQuestionSaveButton();
+        acceptAlert();
+        clickSaveButton();
+        acceptAlert();
+        return testQuestionUrl;
     }
 }

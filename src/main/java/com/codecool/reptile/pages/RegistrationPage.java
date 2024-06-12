@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class RegisterPage {
+public class RegistrationPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -22,13 +22,14 @@ public class RegisterPage {
     @FindBy(xpath = "//button[text() = 'SIGN UP']")
     private WebElement singUpButton;
 
-    public RegisterPage(WebDriver driver) {
+    public RegistrationPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     public void register(String username,String password, String email){
+        driver.get("http://localhost:3000/register");
         wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
         wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(email);
