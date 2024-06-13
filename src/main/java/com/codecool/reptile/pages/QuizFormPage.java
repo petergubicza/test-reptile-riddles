@@ -59,7 +59,7 @@ public class QuizFormPage {
         addQuestionButton.click();
     }
 
-    public void clickAddAnswerButton() {
+    public void clickAddAnswerButton() {  // TODO: could some of these tiny methods be private?
         wait.until(ExpectedConditions.elementToBeClickable(addAnswerButton));
         addAnswerButton.click();
     }

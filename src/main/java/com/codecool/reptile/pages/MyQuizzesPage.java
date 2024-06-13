@@ -15,11 +15,11 @@ import java.util.NoSuchElementException;
 public class MyQuizzesPage {
 
     private static final String TITLE = "testquiz";
-    private static final String BASE_URL = "http://localhost:3000/quiz/my";
+    private static final String BASE_URL = "http://localhost:3000/quiz/my";  // <3
     private final WebDriver driver;
     private final WebDriverWait wait;
     @FindBy(xpath = "//button[text() = 'Delete']")
-    private WebElement deleteButton;
+    private WebElement deleteButton;  // TODO: rename to firstDeleteButton?
     @FindBy(xpath = "//button[text() = 'Add Quiz']")
     private WebElement addQuizButton;
     @FindBy(id = "name")
@@ -46,7 +46,7 @@ public class MyQuizzesPage {
         acceptAlert();
     }
     public void deleteQuiz(){
-        driver.get("http://localhost:3000/quiz/my");
+        driver.get("http://localhost:3000/quiz/my");  // TODO: should reference constant
         wait.until(ExpectedConditions.visibilityOf(deleteButton));
         deleteButton.click();
         driver.switchTo().alert().accept();
@@ -85,7 +85,7 @@ public class MyQuizzesPage {
         driver.get(BASE_URL);
     }
 
-    public void acceptAlert() {
+    public void acceptAlert() {  // TODO: remove duplications
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }

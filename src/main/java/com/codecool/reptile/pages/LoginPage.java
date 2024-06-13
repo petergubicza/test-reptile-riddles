@@ -26,7 +26,7 @@ public class LoginPage {
     }
 
     public void logIn(String username, String password) {
-        wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);  // TODO: wait and action in different statements?
         wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
         wait.until(ExpectedConditions.urlToBe("http://localhost:3000/"));

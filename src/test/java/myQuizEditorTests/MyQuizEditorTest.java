@@ -19,7 +19,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MyQuizEditorTest {
+public class MyQuizEditorTest {  // TODO: test folder structure should exactly match main folder structure (LoginPageTest, MainPageTest, etc.)
     protected WebDriver driver = new ChromeDriver();
     private final MainPage mainPage = new MainPage(driver);
     private final QuizFormPage quizFormPage = new QuizFormPage(driver);
@@ -71,13 +71,13 @@ public class MyQuizEditorTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/test-data-valid-time-limit.csv", numLinesToSkip = 1)
-    public void test_SetTimeWithValidTimeLimit(String sec) {
+    public void test_SetTimeWithValidTimeLimit(String sec) {  // TODO: parameter could be called expected
         quizFormPage.clickAddQuestionButton();
         quizFormPage.setTimeInput(sec);
         quizFormPage.clickQuestionSaveButton();
         myQuizzesPage.acceptAlert();
 
-        wait.until(ExpectedConditions.urlToBe(quizUrl));
+        wait.until(ExpectedConditions.urlToBe(quizUrl));  // TODO: waiting should happen inside a page object, after the navigation call
 
         quizFormPage.clickQuestion();
         String actual = quizFormPage.getTimeLimitValue();

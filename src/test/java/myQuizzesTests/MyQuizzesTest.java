@@ -37,9 +37,11 @@ public class MyQuizzesTest {
         myQuizzesPage.createQuiz(quizTitleInput);
 
         boolean isQuizPresent = myQuizzesPage.isQuizPresent(quizTitleInput);
-        assertTrue(isQuizPresent);
-
-        myQuizzesPage.deleteQuiz(quizTitleInput);
+        try {
+            assertTrue(isQuizPresent);
+        } finally {
+            myQuizzesPage.deleteQuiz(quizTitleInput);
+        }  // TODO: failing assert makes this line unexecutable :'( AfterEach or try-finally?
     }
 
     @AfterEach
