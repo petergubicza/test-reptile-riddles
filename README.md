@@ -66,3 +66,10 @@ To run tests, run the following command
   npm run test
 ```
 
+## Contact
+
+- Gergő Fazekas - gefazekas92@gmail.com
+- Gubicza Péter - gubicza.peter36@gmail.com
+- Dávid Gömöri - gomori.david@gmail.com
+
+Project - https://github.com/petergubicza/test-reptile-riddles/edit/main/README.md
