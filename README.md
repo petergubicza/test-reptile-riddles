@@ -79,4 +79,3 @@ To run tests, run the following command
 - Gubicza Péter - gubicza.peter36@gmail.com
 - Dávid Gömöri - gomori.david@gmail.com
 
-Project - https://github.com/petergubicza/test-reptile-riddles/edit/main/README.md
