@@ -14,7 +14,14 @@ This project focuses on Data-Driven Testing (DDT) using Selenium. It aims to val
 ![junit framework](https://img.shields.io/badge/framework-Junit-caramel)
 
 
+## SUT
 
+- Description: the project under test is a web application where you can create quizes and play with your friends.
+
+- Repository: https://github.com/CodecoolGlobal/reptile-riddles-general-Intcognito
+
+- Installation: follow the "Usage" section in the README file !
+  
 
 ## UserStories
 
